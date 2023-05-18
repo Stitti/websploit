@@ -7,7 +7,7 @@
 from time import sleep
 from core import wcolors
 from core import help
-import httplib
+import http.client
 import os
 options =["http://google.com"]
 def phpmyadmin():
@@ -16,18 +16,18 @@ def phpmyadmin():
 		line_1 += ":"
 		line_1 += wcolors.color.UNDERL + wcolors.color.BLUE + "PMA" + wcolors.color.ENDC
 		line_1 += " > "
-		com = raw_input(line_1)
+		com = eval(input(line_1))
 		com = com.lower()
 		if com[0:10] =='set target':
 			options[0] = com[11:]
-			print "TARGET => ", options[0]
+			print(("TARGET => ", options[0]))
 			phpmyadmin()
 		elif com[0:12] =='show options':
-			print ""
-			print "Options\t\t Value"
-			print "---------\t--------------"
-			print "TARGET\t\t"+options[0]
-			print ""
+			print ("")
+			print ("Options\t\t Value")
+			print ("---------\t--------------")
+			print(("TARGET\t\t"+options[0]))
+			print ("")
 			phpmyadmin()
 		elif com[0:2] =='os':
 			os.system(com[3:])
@@ -39,8 +39,8 @@ def phpmyadmin():
 			pass
 		elif com[0:3] =='run':
 			options[0] = options[0].replace("http://", "")
-			print(wcolors.color.GREEN + "[*] Your Target : " + options[0] + wcolors.color.ENDC)
-			print(wcolors.color.BLUE + "[*]Loading Path List ... Please Wait ..." + wcolors.color.ENDC)
+			print((wcolors.color.GREEN + "[*] Your Target : " + options[0] + wcolors.color.ENDC))
+			print((wcolors.color.BLUE + "[*]Loading Path List ... Please Wait ..." + wcolors.color.ENDC))
 			sleep(2)
 			paths = ['/phpMyAdmin/',
 		'/phpmyadmin/',
@@ -131,18 +131,18 @@ def phpmyadmin():
 			try:
 				for path in paths:
 					path = path.replace("\n", "")
-					conn = httplib.HTTPConnection(options[0])
+					conn = http.client.HTTPConnection(options[0])
 					conn.request("GET", path)
 					res = conn.getresponse()
 					if(res.status==200):
-						print(wcolors.color.BOLD + wcolors.color.GREEN + "[%s] ... [%s %s]" % (path, res.status, res.reason) + wcolors.color.ENDC)
+						print((wcolors.color.BOLD + wcolors.color.GREEN + "[%s] ... [%s %s]" % (path, res.status, res.reason) + wcolors.color.ENDC))
 					else:
-						print(wcolors.color.YELLOW + "[%s] ... [%s %s]" % (path, res.status, res.reason) + wcolors.color.ENDC)
+						print((wcolors.color.YELLOW + "[%s] ... [%s %s]" % (path, res.status, res.reason) + wcolors.color.ENDC))
 			except(KeyboardInterrupt, SystemExit):
-				print(wcolors.color.RED + "[*] (Ctrl + C ) Detected, Module Exit" + wcolors.color.ENDC)
+				print((wcolors.color.RED + "[*] (Ctrl + C ) Detected, Module Exit" + wcolors.color.ENDC))
 		else:
-			print "Wrong Command => ", com
+			print(("Wrong Command => ", com))
 			phpmyadmin()
 	except(KeyboardInterrupt, SystemExit):
-		print(wcolors.color.RED + "[*] (Ctrl + C ) Detected, Module Exit" + wcolors.color.ENDC)
+		print((wcolors.color.RED + "[*] (Ctrl + C ) Detected, Module Exit" + wcolors.color.ENDC))
 

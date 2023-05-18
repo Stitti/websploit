@@ -7,7 +7,7 @@
 from time import sleep
 from core import wcolors
 from core import help
-import httplib
+import http.client
 import os
 options = ["http://google.com"]
 def apache_users():
@@ -16,19 +16,19 @@ def apache_users():
 		line_1 += ":"
 		line_1 += wcolors.color.UNDERL + wcolors.color.BLUE + "Apache User" + wcolors.color.ENDC
 		line_1 += " > "
-		com = raw_input(line_1)
+		com = input(line_1)
 		if com[0:7] =='set url':
 			url = com[8:]
-			print "URL => ", url
+			print(("URL => ", url))
 			options[0] = url
 			options[0]= options[0].replace("http://", "")
 			apache_users()
 		elif com[0:12] =='show options':
-			print ""
-			print " Options\t Value "
-			print "-----------\t----------------"
-			print "URL \t\t%s " %(options[0])
-			print ""
+			print ("")
+			print (" Options\t Value ")
+			print ("-----------\t----------------")
+			print(("URL \t\t%s " %(options[0])))
+			print ("")
 			apache_users()	
 		elif com[0:2] =='os':
 			os.system(com[3:])
@@ -39,8 +39,8 @@ def apache_users():
 		elif com[0:4] =='back':
 			pass
 		elif com[0:3] == 'run':
-			print(wcolors.color.GREEN + "[*] Your Target : " + options[0] + wcolors.color.ENDC)
-			print(wcolors.color.BLUE + "[*]Loading Path List ... Please Wait ..." + wcolors.color.ENDC)
+			print((wcolors.color.GREEN + "[*] Your Target : " + options[0] + wcolors.color.ENDC))
+			print((wcolors.color.BLUE + "[*]Loading Path List ... Please Wait ..." + wcolors.color.ENDC))
 			sleep(2)
 			paths = ['~root',
 '~toor',
@@ -8961,14 +8961,14 @@ def apache_users():
 			try:
 				for path in paths:
 					path = path.replace("\n", "")
-					conn = httplib.HTTPConnection(options[0])
+					conn = http.client.HTTPConnection(options[0])
 					conn.request("GET", path)
 					res = conn.getresponse()
 					if(res.status==200):
-						print(wcolors.color.BOLD + wcolors.color.GREEN + "[%s] ... [%s %s]" % (path, res.status, res.reason) + wcolors.color.ENDC)
+						print((wcolors.color.BOLD + wcolors.color.GREEN + "[%s] ... [%s %s]" % (path, res.status, res.reason) + wcolors.color.ENDC))
 					else:
-						print(wcolors.color.YELLOW + "[%s] ... [%s %s]" % (path, res.status, res.reason) + wcolors.color.ENDC)
+						print((wcolors.color.YELLOW + "[%s] ... [%s %s]" % (path, res.status, res.reason) + wcolors.color.ENDC))
 			except(KeyboardInterrupt, SystemExit):
-				print(wcolors.color.RED + "[*] (Ctrl + C ) Detected, System Exit" + wcolors.color.ENDC)
+				print((wcolors.color.RED + "[*] (Ctrl + C ) Detected, System Exit" + wcolors.color.ENDC))
 	except(KeyboardInterrupt, SystemExit):
-		print(wcolors.color.RED + "[*] (Ctrl + C ) Detected, System Exit" + wcolors.color.ENDC)
+		print((wcolors.color.RED + "[*] (Ctrl + C ) Detected, System Exit" + wcolors.color.ENDC))

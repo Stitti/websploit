@@ -16,17 +16,17 @@ def cloudflare_resolver():
         line_1 += ":"
         line_1 += wcolors.color.UNDERL + wcolors.color.BLUE + "CloudFlare Resolver" + wcolors.color.ENDC
         line_1 += " > "
-        com = raw_input(line_1)
+        com = input(line_1)
         com = com.lower()
         if com[0:10] =="set target":
             options[0]=com[11:]
-            print "TARGET => ", options[0]
+            print(("TARGET => ", options[0]))
             cloudflare_resolver()
         elif com[0:12] =='show options':
-            print ""
-            print "Options\t\t Value\t\t\t RQ\t Description"
-            print "---------\t--------------\t\t----\t--------------"
-            print "Target\t\t"+options[0]+"\t\tyes\tTarget Address"
+            print ("")
+            print ("Options\t\t Value\t\t\t RQ\t Description")
+            print ("---------\t--------------\t\t----\t--------------")
+            print(("Target\t\t"+options[0]+"\t\tyes\tTarget Address"))
             cloudflare_resolver()
         elif com[0:2] =='os':
             os.system(com[3:])
@@ -44,20 +44,20 @@ def cloudflare_resolver():
 'admin', 'imap', 'smtp')
             try:
                 orgip = socket.gethostbyname(options[0])
-                print "[-------------------------]"
-                print "[+] Default IP Address : %s"%orgip
-                print "[-------------------------]"
+                print ("[-------------------------]")
+                print(("[+] Default IP Address : %s"%orgip))
+                print ("[-------------------------]")
             except(socket.gaierror):
-                print "[-] Error : Host is Down !"
+                print ("[-] Error : Host is Down !")
             for i in sub:
                 host = i+'.'+options[0]
                 try:
                     ip = socket.gethostbyname(host)
-                    print "[+] %s : %s"%(host, ip)
+                    print(("[+] %s : %s"%(host, ip)))
                 except(socket.gaierror):
-                    print "[-] %s : N/A"%host
+                    print(("[-] %s : N/A"%host))
             cloudflare_resolver()
         else:
-            print "Wrong Command =>" + com
+            print(("Wrong Command =>" + com))
     except(KeyboardInterrupt):
-        print "\n[!] Operation Stoped By User."
+        print ("\n[!] Operation Stoped By User.")

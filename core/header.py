@@ -59,15 +59,15 @@ Y8   I8I   88 88~~~~~ 88~~~b.   `Y8b. 88~~~   88      88    88    88       88
  
 	hdr_num = random.randint(1, 5)
 	if hdr_num ==1:
-		print header_1
+		print(header_1)
 	if hdr_num ==2:
-		print header_2
+		print(header_2)
 	if hdr_num ==3:
-		print header_3
+		print(header_3)
 	if hdr_num ==4:
-		print header_4
+		print(header_4)
 	if hdr_num ==5:
-		print header_5
+		print(header_5)
 
 
 	

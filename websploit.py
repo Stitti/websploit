@@ -32,7 +32,7 @@
 #    Blog : www.websploit.ir
 #
 import os
-import readline, rlcompleter
+#import readline, rlcompleter
 from time import sleep
 from core import wcolors
 from core import menu
@@ -67,7 +67,7 @@ def main():
     try:
         line_1 = wcolors.color.UNDERL + wcolors.color.BLUE + "wsf" + wcolors.color.ENDC
         line_1 += " > "
-        terminal = raw_input(line_1)
+        terminal = input(line_1)
         if terminal[0:3] =='use':
             if terminal[4:20] =='web/apache_users':
                 apache_users.apache_users()
@@ -149,11 +149,11 @@ def main():
         elif terminal[0:4] =='exit':
             exit()
         else:
-            print "Wrong Command => ", terminal
+            print("Wrong Command => ", terminal)
             main()
     except(KeyboardInterrupt):
-        print(wcolors.color.RED + "\n[*] (Ctrl + C ) Detected, Trying To Exit ..." + wcolors.color.ENDC)
-        print(wcolors.color.YELLOW + "[*] Thank You For Using Websploit Framework =)" + wcolors.color.ENDC)
+        print((wcolors.color.RED + "\n[*] (Ctrl + C ) Detected, Trying To Exit ..." + wcolors.color.ENDC))
+        print((wcolors.color.YELLOW + "[*] Thank You For Using Websploit Framework =)" + wcolors.color.ENDC))
 def start():
     header.main_header()
     menu.main_info()

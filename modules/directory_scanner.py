@@ -7,7 +7,7 @@
 from time import sleep
 from core import wcolors
 from core import help
-import httplib
+import http.client
 import os
 options = ["http://google.com"]
 def directory_scanner():
@@ -16,19 +16,19 @@ def directory_scanner():
 		line_1 += ":"
 		line_1 += wcolors.color.UNDERL + wcolors.color.BLUE + "Dir_Scanner" + wcolors.color.ENDC
 		line_1 += " > "
-		com = raw_input(line_1)
+		com = input(line_1)
 		com = com.lower()
 		if com[0:10] =='set target':
 			options[0] = com[11:]
 			options[0] = options[0].replace("http://", "")
-			print "TARGET => ", options[0]
+			print ("TARGET => ", options[0])
 			directory_scanner()
 		elif com[0:12] =='show options':
-			print ""
-			print "Options\t\t Value"
-			print "---------\t--------------"
-			print "TARGET\t\t"+options[0]
-			print ""
+			print ("")
+			print ("Options\t\t Value")
+			print ("---------\t--------------")
+			print ("TARGET\t\t"+options[0])
+			print ("")
 			directory_scanner()
 		elif com[0:2] =='os':
 			os.system(com[3:])
@@ -220603,7 +220603,7 @@ def directory_scanner():
 			except(KeyboardInterrupt, SystemExit):
 				print(wcolors.color.RED + "[*] (Ctrl + C ) Detected, System Exit" + wcolors.color.ENDC)
 		else:
-			print "Wrong Command => ", com
+			print ("Wrong Command => ", com)
 	except(KeyboardInterrupt, SystemExit):
 		print(wcolors.color.RED + "[*] (Ctrl + C ) Detected, System Exit" + wcolors.color.ENDC)
 
